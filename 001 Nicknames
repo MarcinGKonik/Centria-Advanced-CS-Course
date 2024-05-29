@@ -1,0 +1,33 @@
+/* Exercise description
+In the Main-method create a new Dictionary< string , string > object. Store the names and nicknames of the following example in this dictionary so, that the name is the key and the nickname is the value.
+
+Then get the names from the dictionary, and print the following:
+
+matthew's nickname is matt
+michael's nickname is mix
+arthur's nickname is artie
+Use a foreach-loop to print over KeyValuePair for the printing. */
+
+//Solution
+
+namespace Exercise001
+{
+    using System;
+    using System.Collections.Generic;
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("matthew", "matt");
+            dict.Add("michael", "mix");
+            dict.Add("arthur", "artie");
+            // Print using foreach and KeyValuePair
+            foreach (KeyValuePair<string, string> kvp in dict)
+            {
+                Console.WriteLine("{0}'s nickname is {1}",
+                kvp.Key, kvp.Value);
+            }
+        }
+    }
+}
