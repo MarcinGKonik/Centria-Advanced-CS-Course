@@ -1,0 +1,102 @@
+/* Exercise task
+reate the class Abbreviations for managing common abbreviations. The class must have a constructor, which does not take any parameters. The class must also provide the following methods:
+
+public void AddAbbreviation(string abbreviation, string explanation) adds a new abbreviation and its explanation. You can use the .Add method for the dictionary and assume we never add the same abbrevation twice.
+public bool HasAbbreviation(string abbreviation) checks if an abbreviation has already been added; returns true if it has and false if it has not.
+public string FindExplanationFor(string abbreviation) finds the explanation for an abbreviation; returns "not found" if the abbreviation has not been added yet.
+Note!
+Use HasAbbreviation in your FindExplanationFor to avoid errors!
+Example:
+
+Abbreviations abbreviations = new Abbreviations();
+abbreviations.AddAbbreviation("e.g", "for example");
+abbreviations.AddAbbreviation("etc.", "and so on");
+abbreviations.AddAbbreviation("i.e", "more precisely");
+
+string text = "e.g i.e etc. lol";
+
+foreach (string part in text.Split(" "))
+{
+  Console.WriteLine(abbreviations.FindExplanationFor(part));
+}
+for example
+and so on
+more precisely
+not found */
+
+//solution 
+
+using System;
+using System.Collections.Generic;
+
+namespace Exercise002
+{
+    public class Abbreviation
+    {
+        public string Name { get; set; }
+        public string Explanation { get; set; }
+       
+        public Abbreviation(string name, string explanation)
+        {
+            this.Name = name;
+            this.Explanation = explanation;
+        }
+
+        public override string ToString()
+        {
+            return "Name: " + this.Name + "\n"
+                + "Explanation: " + this.Explanation;
+        }
+    }
+
+    public class Abbreviations
+    {
+        private Dictionary<string, string> abbreviationDictionary;
+
+        public Abbreviations()
+        {
+            abbreviationDictionary = new Dictionary<string, string>();
+        }
+
+        public void AddAbbreviation(string abbreviation, string explanation)
+        {
+            abbreviationDictionary[abbreviation] = explanation;
+        }
+
+        public string FindExplanationFor(string abbreviation)
+        {
+            if (abbreviationDictionary.ContainsKey(abbreviation))
+            {
+                return abbreviationDictionary[abbreviation];
+            }
+            else
+            {
+                return "not found"; // Change this line
+            }
+        }
+
+        public bool HasAbbreviation(string abbreviation)
+        {
+            return abbreviationDictionary.ContainsKey(abbreviation);
+        }
+    }
+
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            Abbreviations abbreviations = new Abbreviations();
+            abbreviations.AddAbbreviation("e.g", "for example");
+            abbreviations.AddAbbreviation("etc.", "and so on");
+            abbreviations.AddAbbreviation("i.e", "more precisely");
+            abbreviations.AddAbbreviation("lol", "lots of laugh");
+
+            string text = "e.g etc. i.e lol";
+
+            foreach (string part in text.Split(" "))
+            {
+                Console.WriteLine(abbreviations.FindExplanationFor(part));
+            }
+        }
+    }
+}
