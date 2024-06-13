@@ -1,0 +1,176 @@
+/* Exercise description
+
+Your task is creating a class called StorageFacility that can be used to keep track of storage units and their contents. The class is to implement the following methods:
+
+public void Add(string unit, string item) adds the parameter item to the storage unit that is also given as a parameter.
+
+public List<string> Contents(string storageUnit) returns a list that contains all the items in the storage unit indicated by the parameter. If there is no such storage unit or it contains no items, the method should return an empty list.
+
+public void Remove(string storageUnit, string item) removes the given item from the given storage unit.
+
+Note!
+Only removes one item -- if there are several items with the same name, the rest still remain. If the storage unit would be empty after the removal, the method also removes the unit.
+public List<string> StorageUnits() returns the names of the storage units as a list.
+Note!
+Only the units that contain items are listed
+Here's an example:
+
+StorageFacility facility = new StorageFacility();
+facility.Add("a14", "ice skates");
+facility.Add("a14", "ice hockey stick");
+facility.Add("a14", "ice skates");
+
+facility.Add("f156", "rollerblades");
+facility.Add("f156", "rollerblades");
+
+facility.Add("g63", "six");
+facility.Add("g63", "pi");
+
+foreach (string unit in facility.StorageUnits())
+{
+  Console.WriteLine(unit);
+}
+
+foreach (string item in facility.Contents("a14"))
+{
+  Console.WriteLine(item);
+}
+
+foreach (string item in facility.Contents("f156"))
+{
+  Console.WriteLine(item);
+}
+facility.Remove("f156", "rollerblades");
+
+foreach (string item in facility.Contents("f156"))
+{
+  Console.WriteLine(item);
+}
+
+facility.Remove("f156", "rollerblades");
+
+foreach (string unit in facility.StorageUnits())
+{
+  Console.WriteLine(unit);
+}
+a14
+f156
+g63
+ice skates
+ice hockey stick
+ice skates
+rollerblades
+rollerblades
+rollerblades
+a14
+g63 */
+
+// Exercise solution
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Exercise009
+{
+    public class StorageFacility
+    {
+        private Dictionary<string, List<string>> storageUnits;
+
+        public StorageFacility()
+        {
+            storageUnits = new Dictionary<string, List<string>>();
+        }
+
+        public void Add(string unit, string item)
+        {
+            if (!storageUnits.ContainsKey(unit))
+            {
+                storageUnits[unit] = new List<string>();
+            }
+            storageUnits[unit].Add(item);
+        }
+
+        public List<string> Contents(string storageUnit)
+        {
+            if (storageUnits.ContainsKey(storageUnit))
+            {
+                return storageUnits[storageUnit];
+            }
+            else
+            {
+                return new List<string>();
+            }
+        }
+
+        public void Remove(string storageUnit, string item)
+        {
+            if (storageUnits.ContainsKey(storageUnit))
+            {
+                storageUnits[storageUnit].Remove(item);
+                if (!storageUnits[storageUnit].Any())
+                {
+                    storageUnits.Remove(storageUnit);
+                }
+            }
+        }
+
+        public List<string> StorageUnits()
+        {
+            return storageUnits.Keys.ToList();
+        }
+    }
+
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            StorageFacility facility = new StorageFacility();
+            facility.Add("a14", "ice skates");
+            facility.Add("a14", "ice hockey stick");
+            facility.Add("a14", "ice skates");
+
+            facility.Add("f156", "rollerblades");
+            facility.Add("f156", "rollerblades");
+
+            facility.Add("g63", "six");
+            facility.Add("g63", "pi");
+
+            foreach (string unit in facility.StorageUnits())
+            {
+                Console.WriteLine(unit);
+            }
+
+            Console.WriteLine(); // Adding a line break for readability
+
+            foreach (string item in facility.Contents("a14"))
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.WriteLine(); // Adding a line break for readability
+
+            foreach (string item in facility.Contents("f156"))
+            {
+                Console.WriteLine(item);
+            }
+
+            facility.Remove("f156", "rollerblades");
+            Console.WriteLine(); // Adding a line break for readability
+
+            foreach (string item in facility.Contents("f156"))
+            {
+                Console.WriteLine(item);
+            }
+
+            facility.Remove("f156", "rollerblades");
+
+            Console.WriteLine(); // Adding a line break for readability
+
+            foreach (string unit in facility.StorageUnits())
+            {
+                Console.WriteLine(unit);
+            }
+        }
+    }
+}
